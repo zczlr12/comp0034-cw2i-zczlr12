@@ -1,0 +1,17 @@
+# For REST API
+Flask
+Flask-SQLAlchemy
+Flask-Marshmallow
+Marshmallow-SQLAlchemy
+pandas
+jwt
+flask-wtf
+wtforms-sqlalchemy
+# For Dash app
+dash
+dash-bootstrap-components
+requests
+# For testing
+pytest
+selenium
+dash[testing]
