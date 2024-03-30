@@ -3,7 +3,7 @@ from datetime import datetime
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from werkzeug.security import generate_password_hash, check_password_hash
-from src import db
+from rest_api import db
 
 
 class Account(db.Model):

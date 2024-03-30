@@ -100,12 +100,12 @@ def create_app(test_config=None):
     db.init_app(app)
     ma.init_app(app)
 
-    from src.models import Account, Comment, Item, Data
+    from rest_api.models import Account, Comment, Item, Data
     with app.app_context():
         db.create_all()
         # Add the data to the database if not already added
         add_data_from_csv()
         # Register the routes with the app in the context
-        from src import routes
+        from rest_api import routes
 
     return app

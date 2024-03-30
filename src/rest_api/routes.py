@@ -3,10 +3,10 @@ from flask import json, current_app as app, request, make_response, abort, jsoni
 from sqlalchemy.exc import SQLAlchemyError
 from marshmallow.exceptions import ValidationError
 from werkzeug.exceptions import HTTPException
-from src import db
-from src.models import Item, Data, Account, Comment
-from src.schemas import ItemSchema, DetailSchema, CommentSchema
-from src.helpers import token_required, encode_auth_token
+from rest_api import db
+from rest_api.models import Item, Data, Account, Comment
+from rest_api.schemas import ItemSchema, DetailSchema, CommentSchema
+from rest_api.helpers import token_required, encode_auth_token
 
 # Flask-Marshmallow Schemas
 comments_schema = CommentSchema(many=True)

@@ -2,8 +2,8 @@ from functools import wraps
 from datetime import datetime, timedelta
 import jwt
 from flask import request, make_response, current_app as app
-from src import db
-from src.models import Account
+from rest_api import db
+from rest_api.models import Account
 
 
 def encode_auth_token(user_id):

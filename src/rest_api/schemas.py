@@ -1,5 +1,5 @@
-from src.models import Comment, Item, Data
-from src import db, ma
+from rest_api.models import Comment, Item, Data
+from rest_api import db, ma
 
 
 class CommentSchema(ma.SQLAlchemySchema):
