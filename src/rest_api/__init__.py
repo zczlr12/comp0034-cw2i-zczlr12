@@ -21,13 +21,13 @@ ma = Marshmallow()
 def add_data_from_csv():
     """Adds data to the database if it does not already exist."""
 
-    from src.models import Item, Data
+    from rest_api.models import Item, Data
 
     # If there are no data in the database, then add them
     first_item = db.session.execute(db.select(Item)).first()
     if not first_item:
         print("Start adding data to the database")
-        data_file = Path(__file__).parent.parent.joinpath("data", "dataset_prepared.csv")
+        data_file = Path(__file__).parent.parent.parent.joinpath("data", "dataset_prepared.csv")
         with open(data_file, 'r') as file:
             csv_reader = csv.reader(file)
             header = next(csv_reader)  # Skip header row
