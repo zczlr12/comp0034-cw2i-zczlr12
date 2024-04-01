@@ -1,4 +1,5 @@
 from dash import register_page, callback, Output, Input, State, html, dcc
+import dash_bootstrap_components as dbc
 
 register_page(__name__, path="/login")
 
@@ -23,7 +24,7 @@ layout = html.Div([
                   style=INPUT_STYLE)
     ),
     html.Div(
-        html.Button('Login', id='verify', n_clicks=0, style={'border-width':'3px','font-size':'14px'}),
+        dbc.Button('Login', id='verify', class_name="me-1", style={'border-width':'3px','font-size':'14px'}, n_clicks=0, outline=True),
         style={'margin-left':'45%','padding-top':'30px'}),
     html.Div(id='output1')
 ])

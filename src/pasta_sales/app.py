@@ -62,16 +62,7 @@ content = html.Div(
     style=CONTENT_STYLE
 )
 
-app.layout = html.Div(id="app-content")
-
-@app.callback(
-    Output("app-content", "children"),
-    Input("change_passw", "n_clicks"),
-    Input("logout", "n_clicks")
-)
-def display_page(change_passw, logout):
-    if ctx.triggered_id == "logout":
-        return dbc
+app.layout = html.Div([sidebar, content])
 
 if __name__ == '__main__':
     app.run(debug=True)
