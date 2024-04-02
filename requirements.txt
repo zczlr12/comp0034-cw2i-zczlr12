@@ -11,6 +11,7 @@ wtforms-sqlalchemy
 dash
 dash-bootstrap-components
 requests
+hierarchicalforecast
 # For testing
 pytest
 selenium
