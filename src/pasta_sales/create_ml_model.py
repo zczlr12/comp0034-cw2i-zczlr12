@@ -7,38 +7,54 @@ from skforecast.ForecasterAutoregDirect import ForecasterAutoregDirect
 from skforecast.model_selection import grid_search_forecaster
 from skforecast.utils import save_forecaster
 
-data_path = Path(__file__).parent.parent.parent.joinpath("data", "dataset_prepared.csv")
-data = pd.read_csv(data_path)
-data["DATE"] = pd.to_datetime(data["DATE"])
-data = data.set_index("DATE").asfreq("D")
-data.fillna(0, inplace=True)
 
-forecaster = ForecasterAutoregDirect(
-    regressor=Ridge(random_state=123),
-    steps=870,
-    lags=5,
-    transformer_y=StandardScaler()
-)
+def create_model(brand, item):
+    """Create a machine learning model for a given brand and item, and save it
+    as a pickled file.
 
-param_grid = {'alpha': np.logspace(-5, 5, 10)}
-lags_grid = [5, 12, 20]
-print(len(data))
+    Args:
+        brand (int): The brand number.
+        item (int): The item number.
+    """
+    # Check if the model file exists
+    path_exists = Path.exists(Path(__file__).parent.joinpath("models",
+                                                             f"model_B{brand}_{brand}.pkl"))
 
-grid_search_forecaster(
-    forecaster=forecaster,
-    y=data['QTY_B1_1'],
-    param_grid={'alpha': np.logspace(-5, 5, 10)},
-    steps=870,
-    metric='mean_squared_error',
-    initial_train_size=len(data)//2,
-    fixed_train_size=False,
-    exog=data['PROMO_B1_1'],
-    lags_grid=[5, 12, 20],
-    refit=False,
-    return_best=True,
-    n_jobs='auto',
-    verbose=False
-)
+    if not path_exists:
+        # Read the data into a DataFrame
+        data_path = Path(__file__).parents[2].joinpath("data",
+                                                       "dataset_prepared.csv")
+        data = pd.read_csv(data_path)
 
-model_path = Path(__file__).parent.joinpath("models", "model_B1_1.pkl")
-save_forecaster(forecaster, model_path)
+        # Preprocess the data
+        data["DATE"] = pd.to_datetime(data["DATE"])
+        data = data.set_index("DATE").asfreq("D")
+        data.fillna(0, inplace=True)
+
+        # Initialize the model
+        forecaster = ForecasterAutoregDirect(
+            regressor=Ridge(random_state=123),
+            steps=870,
+            lags=5,
+            transformer_y=StandardScaler()
+        )
+
+        # Train the model
+        grid_search_forecaster(
+            forecaster=forecaster,
+            y=data[f'QTY_B{brand}_{item}'],
+            param_grid={'alpha': np.logspace(-5, 5, 10)},
+            steps=870,
+            metric='mean_squared_error',
+            initial_train_size=len(data)//2,
+            fixed_train_size=False,
+            exog=data[f'PROMO_B{brand}_{item}'],
+            lags_grid=[5, 12, 20],
+            refit=False,
+            return_best=True,
+            n_jobs='auto',
+            verbose=False
+        )
+
+        # Save the model as a pickled file
+        save_forecaster(forecaster, path_exists)

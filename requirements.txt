@@ -12,6 +12,8 @@ dash
 dash-bootstrap-components
 requests
 hierarchicalforecast
+scikit-learn
+skforecast
 # For testing
 pytest
 selenium

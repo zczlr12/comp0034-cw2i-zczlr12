@@ -3,33 +3,28 @@ import dash_bootstrap_components as dbc
 from dash import html, dcc, callback, Output, Input
 from pasta_sales.figures import line_chart
 
-brand_number_input = html.Div(
+
+number_inputs = dbc.Col(
     [
         html.P("Type the brand number:"),
-        dbc.Input(id="brand-number-input", type="number", value=1, min=1, max=4, step=1)
-    ]
-)
-
-item_number_input = html.Div(
-    [
+        dbc.Input(id="brand-input", type="number", value=1, min=1, max=4, step=1),
         html.P("Type the item number:"),
-        dbc.Input(id="item-number-input", type="number", value=1, min=1, step=1)
-    ]
+        dbc.Input(id="item-input", type="number", value=1, min=1, step=1)
+    ],
+    width=4
 )
 
-number_inputs = html.Div(
-    dbc.Row([
-        dbc.Col([brand_number_input]),
-        dbc.Col([item_number_input])
-    ])
-)
+chart_output = dbc.Col(dcc.Graph(id="line-chart"), width=8)
 
-chart_output = html.Div(dcc.Graph(id="line-chart"))
+chart_layout = dbc.Row([
+    number_inputs,
+    chart_output
+])
 
 @callback(
     Output("line-chart", "figure"),
-    Input("brand-number-input", "value"),
-    Input("item-number-input", "value")
+    Input("brand-input", "value"),
+    Input("item-input", "value")
 )
 def update_line_chart(brand_number, item_number):
     if brand_number is not None and item_number is not None:

@@ -28,23 +28,15 @@ CONTENT_STYLE = {
     "padding": "2rem 1rem",
 }
 
-row_one = dbc.Row([
-    dbc.Col(html.Button("Change password", id="change_passw", n_clicks=0)),
-    dbc.Col(html.Button("Logout", id="logout", n_clicks=0))
-])
-
 sidebar = html.Div(
     [
-        html.H2("Pasta sales", className="display-6"),
+        html.H5("Pasta sales predictor", className="text-center"),
         html.Hr(),
-        html.P(
-            "Menu", className="lead"
-        ),
         dbc.Nav(
             [
                 dbc.NavLink("Home", href="/", active="exact"),
-                dbc.NavLink("Line Chart", href="/line_chart", active="exact"),
-                dbc.NavLink("Bar Chart", href="/bar_chart", active="exact")
+                dbc.NavLink("Current Trends", href="/current_trends",
+                            active="exact"),
             ],
             vertical=True,
             pills=True,
@@ -54,10 +46,7 @@ sidebar = html.Div(
 )
 
 content = html.Div(
-    [
-        row_one,
-        dash.page_container
-    ],
+    dash.page_container,
     id="page-content",
     style=CONTENT_STYLE
 )
