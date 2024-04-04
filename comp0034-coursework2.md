@@ -6,7 +6,23 @@
 
 ## Tools and techniques
 
-URL of the Github repository: https://github.com/ucl-comp0035/comp0034-cw2i-zczlr12
+URL of the Github repository: <https://github.com/ucl-comp0035/comp0034-cw2i-zczlr12>
+
+### Set-up instructions
+
+1. Fork this repository <https://github.com/ucl-comp0035/comp0034-cw2i-zczlr12>
+2. Clone the forked repository to create a project in an IDE
+3. Create and activate a virtual environment in the project folder
+
+    - MacOS: `python3 -m venv .venv` then `source .venv/bin/activate`
+    - Windows: `py -m venv .venv` then `.venv\Scripts\activate`
+4. Check `pip` is the latest versions: `pip install --upgrade pip`
+5. Install the requirements `pip install -r requirements.txt`
+6. Install the application code e.g. `pip install -e .`
+4. Run the REST API app `flask --app rest_api run --debug`
+5. Open a new terminal and run the pasta sales predictor app `python pasta_sales/app.py`
+5. Open a browser and go to <http://127.0.0.1:8050>
+6. Stop the apps using `CTRL+C`
 
 ## References
 
