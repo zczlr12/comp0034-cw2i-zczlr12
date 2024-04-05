@@ -12,6 +12,7 @@ dash
 dash-bootstrap-components
 requests
 hierarchicalforecast
+# For machine learning
 scikit-learn
 skforecast
 # For testing

@@ -12,8 +12,7 @@ representing the SKU-level sales from 01/01/2014 to 31/12/2018 of 4 national
 pasta brands. Besides univariate time series data, the quantity sold is
 integrated by information on the presence or the absence of a promotion. These
 time series can be naturally arranged to follow a 3-level hierarchical
-structure (see
-https://www.sciencedirect.com/science/article/pii/S0957417421005431)."""
+structure (seehttps://www.sciencedirect.com/science/article/pii/S0957417421005431)."""
 ADDITIONAL_INFO = """- QTY_B'X'_'Y' - the quantity sold for brand 'X' item 'Y'
 - PROMO_B'X'_'Y' - the promotion flag for brand 'X' and item 'Y'"""
 

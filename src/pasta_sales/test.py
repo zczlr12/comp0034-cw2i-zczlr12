@@ -1,53 +1,11 @@
-cyclic_spline_poly_pipeline = make_pipeline(
-    cyclic_spline_transformer,
-    Nystroem(kernel="poly", degree=2, n_components=300, random_state=0),
-    RidgeCV(alphas=alphas),
-)
+from pathlib import Path
+import pandas as pd
+from skforecast.utils import load_forecaster
 
-one_hot_poly_pipeline = make_pipeline(
-    ColumnTransformer(
-        transformers=[
-            ("categorical", one_hot_encoder, categorical_columns),
-            ("one_hot_time", one_hot_encoder, ["hour", "weekday", "month"]),
-        ],
-        remainder="passthrough",
-    ),
-    Nystroem(kernel="poly", degree=2, n_components=300, random_state=0),
-    RidgeCV(alphas=alphas),
-)
+date_index = pd.date_range("2019-01-01", "2019-01-10", freq="D")
 
-gbrt.fit(X.iloc[train_0], y.iloc[train_0])
-gbrt_predictions = gbrt.predict(X.iloc[test_0])
+model_path = Path(__file__).parent.joinpath("models", "model_B1_1.pkl")
+model = load_forecaster(model_path, verbose=False)
+# print(model.predict(len(date_index), exog=pd.Series([0]*10, date_index)))
 
-one_hot_poly_pipeline.fit(X.iloc[train_0], y.iloc[train_0])
-one_hot_poly_predictions = one_hot_poly_pipeline.predict(X.iloc[test_0])
-
-cyclic_spline_poly_pipeline.fit(X.iloc[train_0], y.iloc[train_0])
-cyclic_spline_poly_predictions = cyclic_spline_poly_pipeline.predict(X.iloc[test_0])
-
-last_hours = slice(-96, None)
-fig, ax = plt.subplots(figsize=(12, 4))
-fig.suptitle("Predictions by non-linear regression models")
-ax.plot(
-    y.iloc[test_0].values[last_hours],
-    "x-",
-    alpha=0.2,
-    label="Actual demand",
-    color="black",
-)
-ax.plot(
-    gbrt_predictions[last_hours],
-    "x-",
-    label="Gradient Boosted Trees",
-)
-ax.plot(
-    one_hot_poly_predictions[last_hours],
-    "x-",
-    label="One-hot + polynomial kernel",
-)
-ax.plot(
-    cyclic_spline_poly_predictions[last_hours],
-    "x-",
-    label="Splines + polynomial kernel",
-)
-_ = ax.legend()
+print(pd.Series([0]*10, date_index).info())
