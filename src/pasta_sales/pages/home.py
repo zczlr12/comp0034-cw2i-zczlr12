@@ -44,16 +44,16 @@ layout = dbc.Container([
         always_open=True,
         start_collapsed=True
     ),
-    dbc.Button("Download Raw Data", id="btn_csv", className="col-12",
+    dbc.Button("Download the Data", id="btn-raw-data", className="col-12",
                color="primary", outline=True),
-    dcc.Download(id="download-csv")
+    dcc.Download(id="download-raw-data")
 ])
 
 
 @callback(
-    Output("download-csv", "data"),
-    Input("btn_csv", "n_clicks"),
+    Output("download-raw-data", "data"),
+    Input("btn-raw-data", "n_clicks"),
     prevent_initial_call=True
 )
-def download_csv(n_clicks):
+def download_raw_data(n_clicks):
     return dcc.send_file(data_path, "pasta_sales.csv")

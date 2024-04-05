@@ -2,6 +2,8 @@
 
 ## Application code
 
+As a new model needs to be created for each new item, it might takes about 1 minute for the line chart to be displayed in the Future Trend page. For the item that has its model in the `src/pasta_sales/models`, the line chart should be displayed in several seconds.
+
 ## Test code
 
 ## Tools and techniques

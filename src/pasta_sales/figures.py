@@ -1,9 +1,11 @@
 from pathlib import Path
-
 import pandas as pd
 import plotly.express as px
+from skforecast.utils import load_forecaster
+from pasta_sales.create_ml_model import create_model
+from pasta_sales.prediction import predict_future_trend
 
-data_path = Path(__file__).parent.parent.parent.joinpath("data", "dataset_prepared.csv")
+data_path = Path(__file__).parents[2].joinpath("data", "dataset_prepared.csv")
 
 
 def current_trend_chart(brand, item):
@@ -24,7 +26,7 @@ def current_trend_chart(brand, item):
     line_chart_data = pd.read_csv(data_path)
 
     # Generate the title, quantity and promotion columns
-    title_text = f"Current trend for brand {brand} item {item}"
+    text_title = f"Current trend of sales for brand {brand} item {item}"
     quantity = f"QTY_B{brand}_{item}"
     promotion = f"PROMO_B{brand}_{item}"
     column_names = line_chart_data.columns
@@ -46,7 +48,41 @@ def current_trend_chart(brand, item):
                   x="DATE",
                   y=quantity,
                   color=promotion,
-                  title=title_text,
+                  title=text_title,
                   labels={'DATE': 'Date', quantity: 'Quantity', promotion: ''}
+                  )
+    return fig
+
+
+def future_trend_line(brand, item):
+    """ Create a line chart for the future trend of the pasta
+    sales
+
+    Data is displayed over time for 870 days from 01/01/2019.
+    The figure shows separate trends with and without promotion.
+
+     Parameters
+     brand: brand number
+     item: item number
+
+     Returns
+     fig: Plotly Express line figure
+     """
+
+    # Predict the future trend for the given brand and item
+    result_df = predict_future_trend(brand, item)
+
+    text_title = f"Trend predictions of sales for brand {brand} item {item}"
+
+    # Create a Plotly Express line chart with the following parameters
+    #  line_chart_data is the DataFrane
+    #  x="Date" is the column to use as a x-axis
+    #  y="Quantity" is the column to use as the y-axis
+    # color="Promotion" indicates if promotion was present
+    fig = px.line(result_df,
+                  x="Date",
+                  y="Quantity",
+                  color="Promotion",
+                  title=text_title,
                   )
     return fig

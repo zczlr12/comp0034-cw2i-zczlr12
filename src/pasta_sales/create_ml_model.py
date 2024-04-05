@@ -13,18 +13,30 @@ def create_model(brand, item):
     as a pickled file.
 
     Args:
-        brand (int): The brand number.
-        item (int): The item number.
+        brand_num (int): The brand number.
+        item_num (int): The item number.
     """
+
+    # Read the data into a DataFrame
+    data_path = Path(__file__).parents[2].joinpath("data", "dataset_prepared.csv")
+    data = pd.read_csv(data_path)
+
+    # Generate the quantity and promotion columns
+    quantity = f"QTY_B{brand}_{item}"
+    promotion = f"PROMO_B{brand}_{item}"
+    column_names = data.columns
+
     # Check if the model file exists
-    path_exists = Path.exists(Path(__file__).parent.joinpath("models",
-                                                             f"model_B{brand}_{brand}.pkl"))
+    model_path = Path(__file__).parent.joinpath("models",
+                                                f"model_B{brand}_{item}.pkl")
+    print(model_path.as_posix())
+    path_exists = model_path.is_file()
+    
+    # check whether the item is valid
+    if quantity not in column_names or promotion not in column_names:
+        raise ValueError("Invalid value for brand number or item number.")
 
     if not path_exists:
-        # Read the data into a DataFrame
-        data_path = Path(__file__).parents[2].joinpath("data",
-                                                       "dataset_prepared.csv")
-        data = pd.read_csv(data_path)
 
         # Preprocess the data
         data["DATE"] = pd.to_datetime(data["DATE"])
@@ -42,13 +54,13 @@ def create_model(brand, item):
         # Train the model
         grid_search_forecaster(
             forecaster=forecaster,
-            y=data[f'QTY_B{brand}_{item}'],
+            y=data[quantity],
             param_grid={'alpha': np.logspace(-5, 5, 10)},
             steps=870,
             metric='mean_squared_error',
             initial_train_size=len(data)//2,
             fixed_train_size=False,
-            exog=data[f'PROMO_B{brand}_{item}'],
+            exog=data[promotion],
             lags_grid=[5, 12, 20],
             refit=False,
             return_best=True,
@@ -57,4 +69,4 @@ def create_model(brand, item):
         )
 
         # Save the model as a pickled file
-        save_forecaster(forecaster, path_exists)
+        save_forecaster(forecaster, model_path)

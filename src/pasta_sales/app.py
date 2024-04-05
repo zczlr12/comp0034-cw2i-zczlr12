@@ -1,6 +1,7 @@
 import dash
-from dash import Dash, html, Input, Output, ctx
+from dash import Dash, html
 import dash_bootstrap_components as dbc
+
 
 external_stylesheets = [dbc.themes.BOOTSTRAP]
 
@@ -8,7 +9,8 @@ mata_tages = [
     {"name": "viewport", "content": "width=device-width, initial-scale=1"}
 ]
 
-app = Dash(__name__, use_pages=True, external_stylesheets=external_stylesheets, meta_tags=mata_tages)
+app = Dash(__name__, use_pages=True, external_stylesheets=external_stylesheets,
+           meta_tags=mata_tages)
 
 SIDEBAR_STYLE = {
     "position": "fixed",
@@ -35,8 +37,10 @@ sidebar = html.Div(
         dbc.Nav(
             [
                 dbc.NavLink("Home", href="/", active="exact"),
-                dbc.NavLink("Current Trends", href="/current_trends", active="exact"),
-                dbc.NavLink("Future Trends", href="/future_trends", active="exact")
+                dbc.NavLink("Current Trends", href="/current_trends",
+                            active="exact"),
+                dbc.NavLink("Future Trends", href="/future_trends",
+                            active="exact")
             ],
             vertical=True,
             pills=True,
@@ -52,6 +56,7 @@ content = html.Div(
 )
 
 app.layout = html.Div([sidebar, content])
+
 
 if __name__ == '__main__':
     app.run(debug=True)
