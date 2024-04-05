@@ -36,11 +36,11 @@ sidebar = html.Div(
         html.Hr(),
         dbc.Nav(
             [
-                dbc.NavLink("Home", href="/", active="exact"),
-                dbc.NavLink("Current Trends", href="/current_trends",
-                            active="exact"),
-                dbc.NavLink("Future Trends", href="/future_trends",
-                            active="exact")
+                dbc.NavLink("Home", id="home-page", href="/", active="exact"),
+                dbc.NavLink("Current Trends", id="current-trends-page",
+                            href="/current_trends", active="exact"),
+                dbc.NavLink("Future Trends", id="future-trends-page",
+                            href="/future_trends", active="exact")
             ],
             vertical=True,
             pills=True,
